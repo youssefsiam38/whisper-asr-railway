@@ -14,7 +14,7 @@ HTTP basic authentication, and the app itself only listens on loopback. No appli
 changed and no route is rewritten, so anything that works against the upstream API works here, with
 credentials attached.
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/whisper-asr)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/whisper-asr-webservice)
 
 ## What you get
 
@@ -57,6 +57,7 @@ The interactive API documentation is at `/docs`, behind the same credentials.
 | `WHISPER_MAX_UPLOAD_MB` | `512` | Largest accepted upload. |
 | `WHISPER_INTERNAL_PORT` | `9000` | Loopback port the app listens on. Change only on a collision. |
 | `PORT` | `8000` | Public port. Railway sets this and probes its healthcheck against it. |
+| `RAILWAY_HEALTHCHECK_TIMEOUT_SEC` | `900` | How long Railway waits for the health route on a first deploy. Raise it further for a large model. |
 
 `ASR_QUANTIZATION`, `MODEL_IDLE_TIMEOUT`, `SAMPLE_RATE` and the subtitle options are passed through
 to upstream untouched; see its documentation.

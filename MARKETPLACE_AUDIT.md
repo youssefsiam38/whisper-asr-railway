@@ -57,5 +57,5 @@ The template also settles four things that are easy to get wrong and produce con
 
 ## Category
 
-Other. Railway has no AI or machine-learning category; the existing inference and AI templates sit
-under Other as well.
+AI/ML. Railway added that category after the earlier templates in this family were published, and it
+is the right home for a speech-recognition service.
