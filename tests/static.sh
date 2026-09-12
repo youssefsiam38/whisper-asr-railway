@@ -42,6 +42,18 @@ assert_contains "everything else is behind basic auth" 'basic_auth' "$ep"
 assert_contains "the health route publishes no response body" 'respond "ok" 200' "$ep"
 assert_contains "the generated config is validated before use" 'caddy validate' "$ep"
 assert_contains "uploads are capped" 'max_size' "$ep"
+# Railway colours a log line by the stream it arrived on, so routine start-up messages written to
+# stderr are shown to the deployer as errors.
+if grep -q '^log()' scripts/entrypoint.sh && ! grep '^log()' scripts/entrypoint.sh | grep -q '>&2'; then
+  pass "routine logs go to stdout"
+else
+  fail "log() writes to stderr; Railway would show every start-up line as an error"
+fi
+if grep '^fail()' scripts/entrypoint.sh | grep -q '>&2'; then
+  pass "failures go to stderr"
+else
+  fail "fail() does not write to stderr"
+fi
 
 section "workflows"
 # a stale image-override name from a copied workflow makes CI test the wrong image, and the failure

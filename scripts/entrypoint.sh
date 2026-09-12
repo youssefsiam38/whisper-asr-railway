@@ -11,8 +11,11 @@
 # wrapper supplies the boundary upstream assumes is already there.
 set -uo pipefail
 
-log()  { printf '[whisper-asr-railway] %s\n' "$*" >&2; }
-fail() { log "FATAL: $*"; exit 1; }
+# Informational lines go to stdout and only failures to stderr. Railway derives a log's severity
+# from the stream it arrived on, so a start-up message written to stderr is shown to the deployer
+# in red as though something had gone wrong.
+log()  { printf '[whisper-asr-railway] %s\n' "$*"; }
+fail() { printf '[whisper-asr-railway] FATAL: %s\n' "$*" >&2; exit 1; }
 
 : "${WHISPER_HOST:=127.0.0.1}"
 : "${WHISPER_INTERNAL_PORT:=9000}"
