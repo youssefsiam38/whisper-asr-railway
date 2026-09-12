@@ -4,18 +4,25 @@ Checked 2026-09-12 against Railway's template search.
 
 ## Gap
 
-`templateSearch` returns no template named after Whisper ASR Webservice, and none of the loose
-matches is a speech-to-text service. The adjacent AI templates that do exist solve different
-problems:
+`templateSearch` returns no template named after Whisper ASR Webservice. The speech category is not
+empty, though, and it is worth being precise about what is already there:
 
-| Existing template | What it is | Why it does not cover this |
-|---|---|---|
-| Speaches | An OpenAI-compatible speech server | A different project with a different API surface. |
-| Kokoro | Text to speech | The opposite direction. |
-| LibreTranslate | Text translation | No audio at all. |
-| Ollama, LocalAI | LLM inference servers | They do not transcribe audio. |
+| Existing template | Deploys | What it is |
+|---|---:|---|
+| Faster Whisper | 19 | A combined speech-to-text and text-to-speech service, OpenAI-shaped API |
+| Speaches | 12 | An OpenAI-compatible STT and TTS server, a different project |
+| Whisper STT API | 1 | An OpenAI-compatible endpoint with a model baked into the image |
+| Speech (Whisper + Kokoro) | 0 | Two models behind one endpoint |
+| Kokoro, KittenTTS, Pocket TTS, FlowSpeech | 0-10 | Text to speech, the opposite direction |
 
-There is no self-hosted transcription API on the marketplace.
+Every one of those exposes an OpenAI-compatible `/v1/audio/transcriptions` surface. Whisper ASR
+Webservice is a different product with a different API: `POST /asr` with an `output` parameter that
+returns plain text, JSON with word-level segments, SRT, WebVTT or TSV, plus `POST /detect-language`.
+Subtitle generation is the use case those other templates do not serve, and it is what this project
+is most used for.
+
+It is also the most widely deployed of the group outside Railway, with published multi-architecture
+CPU images on every release and a stable API since 2022, so pinning it is low risk.
 
 ## Why Whisper ASR Webservice
 
